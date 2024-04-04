@@ -1,0 +1,98 @@
+const mongoose = require('mongoose');
+
+// User Model
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  userType: { type: String, required: true, enum: ['project_owner', 'applicant'] },
+  profileData: { type: mongoose.Schema.Types.Mixed }
+});
+
+const User = mongoose.model('User', userSchema);
+
+// Project Model
+const projectSchema = new mongoose.Schema({
+  projectName: { type: String, required: true },
+  projectDescription: { type: String, required: true },
+  projectGoals: { type: String, required: true },
+  projectOwner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  projectTechnologies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Technology' }],
+  projectSkillsRequired: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Skill' }],
+  projectStatus: { type: String, required: true, enum: ['active', 'completed', 'archived'] },
+  projectSummary: { type: String }
+});
+
+const Project = mongoose.model('Project', projectSchema);
+
+// Project Application Model
+const projectApplicationSchema = new mongoose.Schema({
+  project: { type: mongoose.Schema.Types.ObjectId, ref: 'Project', required: true },
+  applicant: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  applicationStatus: { type: String, required: true, enum: ['pending', 'accepted', 'rejected'] },
+  applicationData: { type: mongoose.Schema.Types.Mixed }
+});
+
+const ProjectApplication = mongoose.model('ProjectApplication', projectApplicationSchema);
+
+// Sponsor Model
+const sponsorSchema = new mongoose.Schema({
+  sponsorName: { type: String, required: true },
+  sponsorDescription: { type: String },
+  sponsorContactInfo: { type: String }
+});
+
+const Sponsor = mongoose.model('Sponsor', sponsorSchema);
+
+// Project Sponsor Model
+const projectSponsorSchema = new mongoose.Schema({
+  project: { type: mongoose.Schema.Types.ObjectId, ref: 'Project', required: true },
+  sponsor: { type: mongoose.Schema.Types.ObjectId, ref: 'Sponsor', required: true },
+  sponsorshipAmount: { type: Number, required: true },
+  sponsorshipDate: { type: Date, default: Date.now }
+});
+
+const ProjectSponsor = mongoose.model('ProjectSponsor', projectSponsorSchema);
+
+// Message Model
+const messageSchema = new mongoose.Schema({
+  sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  messageContent: { type: String, required: true },
+  messageTimestamp: { type: Date, default: Date.now }
+});
+
+const Message = mongoose.model('Message', messageSchema);
+
+// Skill Model
+const skillSchema = new mongoose.Schema({
+  skillName: { type: String, required: true, unique: true },
+  skillDescription: { type: String }
+});
+
+const Skill = mongoose.model('Skill', skillSchema);
+
+// User Skill Model
+const userSkillSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  skill: { type: mongoose.Schema.Types.ObjectId, ref: 'Skill', required: true },
+  skillLevel: { type: String, required: true, enum: ['beginner', 'intermediate', 'advanced'] }
+});
+
+const UserSkill = mongoose.model('UserSkill', userSkillSchema);
+
+// Technology Model
+const technologySchema = new mongoose.Schema({
+  technologyName: { type: String, required: true, unique: true },
+  technologyDescription: { type: String }
+});
+
+const Technology = mongoose.model('Technology', technologySchema);
+
+// Project Technology Model
+const projectTechnologySchema = new mongoose.Schema({
+  project: { type: mongoose.Schema.Types.ObjectId, ref: 'Project', required: true },
+  technology: { type: mongoose.Schema.Types.ObjectId, ref: 'Technology', required: true }
+});
+
+const ProjectTechnology = mongoose.model('ProjectTechnology', projectTechnologySchema);
