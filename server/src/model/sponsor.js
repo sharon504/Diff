@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
 
 const sponsorSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  sponsorDescription: { type: String, required: true },
-  sponsoredProjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  description: { type: String, required: true },
+  projects: [{ type: mongoose.Schema.Types.ObjectId, ref: "project" }],
+  createdAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.model("sponsors", sponsorSchema);
