@@ -1,0 +1,76 @@
+---
+import MetadataWrapper from "@layouts/metadata-wrapper.astro";
+import { MailIcon, LockIcon, UserIcon } from "lucide-react";
+
+const fields: {
+  name: string;
+  id: string;
+  type: string;
+  placeholder: string;
+  icon: any;
+}[] = [
+  {
+    name: "email",
+    id: "email",
+    type: "email",
+    placeholder: "example@gmail.com",
+    icon: MailIcon,
+  },
+  {
+    name: "password",
+    id: "password",
+    type: "password",
+    placeholder: "password",
+    icon: LockIcon,
+  },
+];
+---
+
+<MetadataWrapper page="Signup">
+  <div class="h-screen mx-auto flex items-center justify-center">
+    <form
+      class="p-4 flex flex-col items-center gap-4 bg-white shadow-md rounded-lg"
+    >
+      <UserIcon size={64} />
+
+      <hr class="w-full mt-2 mb-1" />
+      {
+        fields.map((field) => (
+          <div class="border px-3 py-1 flex justify-between items-center gap-2 rounded-lg">
+            <label for={field.id} class="text-gray-600">
+              <field.icon size={24} />
+            </label>
+            <input
+              type={field.type}
+              id={field.id}
+              name={field.id}
+              placeholder={field.placeholder}
+              class="p-1 rounded-lg outline-none"
+            />
+          </div>
+        ))
+      }
+      <button
+        class="border w-full px-3 py-2 rounded-lg hover:bg-blue-500 hover:scale-105 hover:text-white ease-in-out duration-500"
+        type="submit"
+      >
+        Signin
+      </button>
+
+      <a
+        class="text-sm text-neutral-400 hover:text-blue-500 ease-in-out duration-500"
+        href="/auth/forgot-password"
+      >
+        Forgot Password?
+      </a>
+      <hr class="w-full mt-2 mb-1" />
+      <button
+        class="border w-full px-3 py-2 rounded-lg hover:bg-blue-500 hover:scale-105 hover:text-white ease-in-out duration-500"
+        type="button"
+        onclick="window.location.href = '/auth/signup';"
+      >
+        Signup
+      </button>
+    </form>
+  </div>
+</MetadataWrapper>

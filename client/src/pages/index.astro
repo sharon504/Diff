@@ -1,6 +1,6 @@
 ---
 import MetadataWrapper from "../layouts/metadata-wrapper.astro";
-import Carousel from "../components/common/carousel";
+import Carousel from "@components/common/carousel.tsx";
 const features = [
   {
     feature: "Effortless Project Visibility",
@@ -45,16 +45,15 @@ const features = [
 ];
 ---
 
-<!--Landing Page for Diff-->
 <MetadataWrapper page="Home">
   <div class="w-screen min-h-screen flex flex-col justify-center items-center">
     <div class="h-screen flex flex-col justify-center items-center">
-      <h1 class="text-6xl font-bold text-center">Diff</h1>
+      <h1 class="text-6xl font-bold text-center text-pink-600">Diff</h1>
       <p class="text-2xl text-center">
         Create, Grow and Make a <span class="text-pink-600">Diff</span>erence
       </p>
       <button class="p-2 mt-4 bg-pink-600 text-xl text-white rounded-lg">
-        <a href="/signup">Get Started</a>
+        <a href="/auth/signup">Get Started</a>
       </button>
     </div>
     <div

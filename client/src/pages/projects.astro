@@ -1,0 +1,9 @@
+---
+import MetadataWrapper from "@layouts/metadata-wrapper.astro";
+import { SearchIcon } from "lucide-react";
+import ProjectsList from "@components/projects/projects";
+---
+
+<MetadataWrapper page="Home">
+  <ProjectsList client:load />
+</MetadataWrapper>

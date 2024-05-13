@@ -3,7 +3,7 @@ import app from "./app.js";
 import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-dotenv.config({ path: "./configs.env" });
+dotenv.config({ path: "./.envrc" });
 const { PORT, MONGO_URL } = process.env;
 import connectDB from "./utils/connect-db.js";
 connectDB(MONGO_URL);

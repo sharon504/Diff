@@ -12,10 +12,10 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-    cors({
-        origin: "http://localhost:3000",
-        credentials: true,
-    }),
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:4321"],
+    credentials: true,
+  }),
 );
 
 app.use(ROUTE_PREFIX, projectsRouter);
