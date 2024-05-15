@@ -6,6 +6,8 @@ import Search from "@components/common/search";
 ---
 
 <MetadataWrapper page="Home">
-  <Search />
-  <ProjectsList client:load />
+  <div class="p-8 flex flex-col items-center gap-4">
+    <Search client:load />
+    <ProjectsList client:load />
+  </div>
 </MetadataWrapper>
