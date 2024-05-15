@@ -2,8 +2,10 @@
 import MetadataWrapper from "@layouts/metadata-wrapper.astro";
 import { SearchIcon } from "lucide-react";
 import ProjectsList from "@components/projects/projects";
+import Search from "@components/common/search";
 ---
 
 <MetadataWrapper page="Home">
+  <Search />
   <ProjectsList client:load />
 </MetadataWrapper>
