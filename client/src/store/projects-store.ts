@@ -50,10 +50,12 @@ export const searchQueryAtom = atom<T_searchQuery>({
   sortBy: "name",
   sortOrder: "asc",
 });
+export const availableTechStacksAtom = atom<string[]>([]);
 
 export const setProjects = (projects: T_project[]) => {
   projectsAtom.set(projects);
   processedProjectsAtom.set(projects);
+  updateAvailableTechStacks();
 };
 export const getProjects = (): T_project[] => {
   return projectsAtom.get();
@@ -130,4 +132,18 @@ export const processProjects = (): void => {
     searchQueryAtom.get().sortBy,
     searchQueryAtom.get().sortOrder,
   );
+};
+
+export const updateAvailableTechStacks = (): void => {
+  const processedProjects = processedProjectsAtom.get();
+  const availableTechStacks: string[] = [];
+
+  processedProjects
+    .flatMap((project) => project.techStacks || [])
+    .map(
+      (techStack: string) =>
+        !availableTechStacks.includes(techStack.trim()) &&
+        availableTechStacks.push(techStack.trim()),
+    ),
+    availableTechStacksAtom.set(availableTechStacks);
 };
