@@ -32,7 +32,7 @@ const createProject = async (req, res) => {
     value != null;
   };
   Project.contributors = contributorsId.filter(isNull) || [];
-  Project.techStacks = techStacks.split(",");
+  Project.techStacks = techStacks.split(",").map((tech) => tech.trim());
   Project.summary = summary;
   try {
     await Project.save();
