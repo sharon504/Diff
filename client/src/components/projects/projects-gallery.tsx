@@ -51,9 +51,12 @@ const ProjectCard = ({ project }: { project: T_project }) => {
         >
           GitHub
         </a>{" "}
-        <button className="flex px-4 py-1 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-500 ease-in-out duration-300 hover:text-white focus:outline-none">
+        <a
+          href={`/projects/${_id}`}
+          className="flex px-4 py-1 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-500 ease-in-out duration-300 hover:text-white focus:outline-none"
+        >
           View
-        </button>
+        </a>
         <button className="flex px-4 py-1 rounded-full border border-green-500 text-green-500 hover:bg-green-500 ease-in-out duration-300 hover:text-white focus:outline-none">
           Apply
         </button>
