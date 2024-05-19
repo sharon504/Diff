@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ArrowRightIcon, ArrowLeftIcon } from "lucide-react";
 
 type T_feature = {
@@ -21,8 +21,11 @@ const Carousel = ({ data }: { data: T_feature[] }) => {
     }
   };
   return (
-    <div className="flex flex-row items-center">
-      <button onClick={() => handleCarouselClick(current, "left")}>
+    <div className="flex flex-row justify-between items-center gap-4">
+      <button
+        className="w-8 h-8 flex justify-center items-center flex-shrink-0 bg-neutral-100 rounded-full"
+        onClick={() => handleCarouselClick(current, "left")}
+      >
         <ArrowLeftIcon size={24} />
       </button>
       <div className="flex flex-row justify-evenly items-center gap-4">
@@ -49,7 +52,10 @@ const Carousel = ({ data }: { data: T_feature[] }) => {
           }
         })}
       </div>
-      <button onClick={() => handleCarouselClick(current, "right")}>
+      <button
+        className="w-8 h-8 flex justify-center items-center flex-shrink-0 bg-neutral-100 rounded-full"
+        onClick={() => handleCarouselClick(current, "right")}
+      >
         <ArrowRightIcon size={24} />
       </button>
     </div>
