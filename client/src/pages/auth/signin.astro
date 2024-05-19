@@ -1,5 +1,8 @@
 ---
+export const prerender = false;
+
 import MetadataWrapper from "@layouts/metadata-wrapper.astro";
+import Nav from "@components/common/nav";
 import { MailIcon, LockIcon, UserIcon } from "lucide-react";
 
 const fields: {
@@ -24,12 +27,42 @@ const fields: {
     icon: LockIcon,
   },
 ];
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const email = data.get("email");
+    const password = data.get("password");
+    const response = await fetch("http://localhost:2000/api/v1/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+        console.log(response);
+    if (response.status === 201) {
+      console.log("User signed in successfully");
+      return Astro.redirect("/dashboard");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+      return Astro.redirect(`/auth/signin?error=${error.message}`);
+    }
+  }
+}
 ---
 
 <MetadataWrapper page="Signup">
+  <Nav current="Signin" client:load />
   <div class="h-screen mx-auto flex items-center justify-center">
     <form
       class="p-4 flex flex-col items-center gap-4 bg-white shadow-md rounded-lg"
+      method="POST"
     >
       <UserIcon size={64} />
 
