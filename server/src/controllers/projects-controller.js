@@ -61,7 +61,6 @@ const getProject = async (req, res) => {
   const { id: _id } = req.params;
   try {
     const project = await ProjectModel.findById(_id);
-    console.log(project);
     res.status(200).json(project);
   } catch (error) {
     res.status(404).json({ message: error.message });
