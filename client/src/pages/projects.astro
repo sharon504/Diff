@@ -1,13 +1,15 @@
 ---
 import MetadataWrapper from "@layouts/metadata-wrapper.astro";
 import { SearchIcon } from "lucide-react";
-import ProjectsList from "@components/projects/projects";
+import ProjectsGallery from "@components/projects/projects-gallery";
 import Search from "@components/common/search";
+import Nav from "@components/common/nav";
 ---
 
 <MetadataWrapper page="Home">
-  <div class="p-8 flex flex-col items-center gap-4">
+  <Nav current="Projects" client:load />
+  <div class="px-8 flex flex-col items-center gap-4">
     <Search client:load />
-    <ProjectsList client:load />
+    <ProjectsGallery client:load />
   </div>
 </MetadataWrapper>
