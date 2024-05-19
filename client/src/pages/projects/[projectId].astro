@@ -1,0 +1,13 @@
+---
+export const prerender = false;
+import MetadataWrapper from "@layouts/metadata-wrapper.astro";
+import ProjectViewer from "@components/projects/project-viewer";
+import Nav from "@components/common/nav";
+const { projectId } = Astro.params;
+console.log();
+---
+
+<MetadataWrapper page={`${projectId}`}>
+    <Nav current="Project" 
+  <ProjectViewer projectId={projectId} client:load />
+</MetadataWrapper>
