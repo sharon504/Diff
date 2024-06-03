@@ -1,13 +1,13 @@
 import User from "../models/user-model.js";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const createUser = async (req, res) => {
   const { email, password, name } = req.body;
   try {
     const user = new User({ email, password, name });
-    const userSave = await user.save();
-    res.status(201).json(userSave);
+    await user.save();
+    res.status(201).json({ message: "User created" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -15,34 +15,31 @@ const createUser = async (req, res) => {
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
   try {
-    const existingUser = await User.findOne({ email });
+    console.log(email);
+    const existingUser = await User.findOne({ email: email }).select(
+      "+password",
+    );
+    console.log(existingUser);
     if (!existingUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-    bcrypt.compare(password, existingUser.password, function (err, res) {
-      if (err) {
-        return res.status(500).json({ message: err.message });
-      } else if (res) {
-        res
-          .status(200)
-          .cookie(
-            "access-token",
-            jwt.sign(
-              {
-                email: email,
-                username: existingUser.username,
-                userId: existingUser._id,
-              },
-              process.env.JWT_SECRET,
-            ),
-          )
-          .send("Signed in");
-      } else {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-    });
+    const match = bcryptjs.compare(password, existingUser.password);
+    if (!match) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    return res
+      .status(200)
+      .cookie(
+        "access-token",
+        jwt.sign(
+          {
+            userId: existingUser._id,
+          },
+          process.env.JWT_SECRET,
+        ),
+      )
+      .send("Signed in");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
