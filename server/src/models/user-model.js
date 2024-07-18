@@ -1,38 +1,75 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-export const fileSchema = new mongoose.Schema({
-    name: { type: String, required: false },
-    data: { type: Buffer, required: false },
-    contentType: { type: String, required: false },
+const UserSchema = new mongoose.Schema({
+	name: { type: String, required: true },
+	email: { type: String, required: true, unique: true },
+	password: { type: String, required: true, select: false },
+	username: { type: String, required: false },
+	student: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "students",
+		default: null,
+	},
+	sponsor: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "sponsors",
+		default: null,
+	},
+	created_at: { type: Date, default: Date.now },
+	updated_at: { type: Date, default: Date.now },
+	// sessions: [],
 });
 
-const userSchema = new mongoose.Schema({
-    username: { type: String, required: false },
-    name: { type: String, required: false },
-    password: { type: String, required: false, select: false },
-    yearOfStudy: { type: Number, required: false },
-    techStacks: { type: Array, required: false },
-    projects: { type: Array, required: false },
-    joinedAt: { type: Date, default: Date.now },
-    qualifications: {
-        resume: fileSchema,
-        cv: fileSchema,
-        portfolio: { type: String, required: false },
-    },
-    contact: {
-        linkedin: { type: String, required: false },
-        github: { type: String, required: false },
-        phone: { type: String, required: false },
-        email: { type: String, required: false },
-    },
+UserSchema.pre("save", async function (next) {
+	if (!this.isModified("password")) {
+		next();
+	}
+	this.password = await bcryptjs.hash(this.password, 10);
 });
 
-userSchema.pre("save", async function(next) {
-    if (!this.isModified("password")) {
-        next();
-    }
-    this.password = await bcrypt.hash(this.password, 10);
-});
+UserSchema.methods.comparePassword = async function (password) {
+	return await bcryptjs.compare(password, this.password);
+};
 
-export default mongoose.model("users", userSchema);
+UserSchema.methods.getAccessToken = function () {
+	return jwt.sign(
+		{ user_id: this._id, iat: Date.now() },
+		process.env.JWT_SECRET,
+		{
+			expiresIn: process.env.JWT_EXPIRY,
+		},
+	);
+};
+
+// UserSchema.methods.getRefreshToken = function () {
+//   return jwt.sign(
+//     { id: this._id, iat: Date.now() },
+//     process.env.JWT_REFRESH_SECRET,
+//     {
+//       expiresIn: process.env.JWT_REFRESH_EXPIRY,
+//     },
+//   );
+// };
+
+UserSchema.methods.verifyToken = function (token, type) {
+	return jwt.verify(
+		accessToken,
+		type === "access" ? process.env.JWT_SECRET : process.env.JWT_REFRESH_SECRET,
+	);
+};
+
+// UserSchema.methods.refreshAccessToken = function (refreshToken) {
+// 	if (!jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET)) return null;
+// 	if (!this.sessions.filter((session) => session === refreshToken)) return null;
+// 	//check if refresh token has expired
+// 	const decoded = jwt.decode(refreshToken);
+// 	if (decoded.exp < Date.now()) return null;
+//
+// 	return jwt.sign({ id: this._id, iat: Date.now() }, process.env.JWT_SECRET, {
+// 		expiresIn: process.env.JWT_EXPIRY,
+// 	});
+// };
+
+export default mongoose.model("users", UserSchema);

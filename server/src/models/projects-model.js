@@ -1,43 +1,42 @@
 import mongoose from "mongoose";
-import { fileSchema } from "../models/user-model.js";
 
 const projectSchema = new mongoose.Schema({
-  name: { type: String, required: false },
-  description: { type: String, required: false },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
-    required: false,
-  },
-  techStacks: [{ type: String, required: false }],
-  status: {
-    type: String,
-    required: false,
-    enum: ["active", "completed", "archived"],
-  },
-  projectURL: { type: String, required: false },
-  readmeFile: { type: String, required: false },
-  contributors: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
-  sponsorship: [
-    {
-      sponsor: { type: mongoose.Schema.Types.ObjectId, ref: "sponsors" },
-      amount: { type: Number, required: false },
-      startDate: { type: Date, required: false },
-      endDate: { type: Date, required: false },
-    },
-  ],
-  vacancies: [{ type: String, required: false }],
-  applications: [
-    {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
-      status: {
-        type: String,
-        required: false,
-        enum: ["pending", "accepted", "rejected"],
-      },
-    },
-  ],
-  summary: { type: String },
+	name: { type: String, required: true },
+	description: { type: String, required: false },
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "users",
+		required: true,
+	},
+	tech_stacks: [{ type: String, required: false }],
+	status: {
+		type: String,
+		required: true,
+		enum: ["active", "completed", "archived"],
+	},
+	project_url: { type: String, required: false },
+	readme_file: { type: String, required: false },
+	contributors: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+	sponsorships: [
+		{
+			sponsor: { type: mongoose.Schema.Types.ObjectId, ref: "sponsors" },
+			amount: { type: Number, required: false },
+			start_date: { type: Date, required: false },
+			end_date: { type: Date, required: false },
+		},
+	],
+	vacancies: [{ type: String, required: false }],
+	applications: [
+		{
+			user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+			status: {
+				type: String,
+				required: false,
+				enum: ["pending", "accepted", "rejected"],
+			},
+		},
+	],
+	summary: { type: String },
 });
 
 export default mongoose.model("projects", projectSchema);
