@@ -1,6 +1,7 @@
 .envrc
 node_modules/
-*.env*
+**/*.env*
 
 server/configs.env
 .DS_Store
+**/.supermaven/*
