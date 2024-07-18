@@ -12,6 +12,7 @@ const asyncErrorHandler = (fn) => (req, res, next) => {
 };
 
 const errorHandler = (err, req, res, next) => {
+    console.log(err);
   if (err instanceof ErrorHandler) {
     res.status(err.code).json({ message: err.message });
   } else if (err instanceof mongoose.Error.ValidationError) {
