@@ -16,15 +16,13 @@ const createUser = async (req, res) => {
 const signIn = async (req, res) => {
   const { email, password } = req.body;
   try {
-    console.log(email);
     const existingUser = await User.findOne({ email: email }).select(
       "+password",
     );
-    console.log(existingUser);
     if (!existingUser) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    const match = bcryptjs.compare(password, existingUser.password);
+    const match = await bcryptjs.compare(password, existingUser.password);
     if (!match) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -47,6 +45,10 @@ const signIn = async (req, res) => {
 
 const signOut = async (req, res) => {
   res.clearCookie("access-token").status(200).json({ message: "Signed out" });
+};
+
+const forgotPassword = async (req, res) => {
+  //TODO: Implement forgot password
 };
 
 export { createUser, signIn, signOut };
