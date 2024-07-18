@@ -1,3 +1,4 @@
 import token_handler from "./token-handler.js";
+import connect_db from "./connect-db.js";
 
-export { token_handler };
+export { connect_db, token_handler };

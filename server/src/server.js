@@ -5,13 +5,13 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config({ path: "./.envrc" });
 const { PORT, MONGO_URL } = process.env;
-import connectDB from "./utils/connect-db.js";
-connectDB(MONGO_URL);
+import { connect_db } from "./utils/utils.js";
+connect_db(MONGO_URL);
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} at http://localhost:${PORT}`);
+	console.log(`Server is running on port ${PORT} at http://localhost:${PORT}`);
 });
 
 export { genAI };
