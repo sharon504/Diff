@@ -1,6 +1,6 @@
-import User from "./user-model.js";
-import Project from "./project-model.js";
-import Sponsor from "./sponsor-model.js";
-import Student from "./student-model.js";
+import UserModel from "./user-model.js";
+import ProjectModel from "./project-model.js";
+import SponsorModel from "./sponsor-model.js";
+import StudentModel from "./student-model.js";
 
-export { User, Project, Sponsor, Student };
+export { UserModel, ProjectModel, SponsorModel, StudentModel };

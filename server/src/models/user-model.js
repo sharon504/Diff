@@ -3,10 +3,48 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const UserSchema = new mongoose.Schema({
-	name: { type: String, required: true },
-	email: { type: String, required: true, unique: true },
+	name: {
+		type: String,
+		trim: true,
+		minlength: [
+			3,
+			"Please enter a valid name that is at least 3 characters long",
+		],
+		validate: {
+			validator: function (v) {
+				return /^[a-zA-Z]+$/.test(v);
+			},
+			message: "Please enter a valid name that only contains English alphabets",
+		},
+		cast: "{VALUE} is not a valid {KIND}",
+		required: [true, "Please enter your name"],
+	},
+	email: {
+		type: String,
+		trim: true,
+		lowercase: true,
+		validate: {
+			validator: function (v) {
+				return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
+			},
+			message: "Please enter a valid email address",
+		},
+		cast: "{VALUE} is not a valid {KIND}",
+		required: [true, "Please enter your email"],
+		unique: true,
+	},
+
 	password: { type: String, required: true, select: false },
-	username: { type: String, required: false },
+	username: {
+		type: String,
+		trim: true,
+		minlength: [
+			3,
+			"Please enter a valid username that is at least 3 characters long",
+		],
+		cast: "{VALUE} is not a valid {KIND}",
+		required: false,
+	},
 	student: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "students",

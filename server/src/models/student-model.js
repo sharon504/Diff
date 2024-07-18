@@ -7,9 +7,14 @@ export const fileSchema = new mongoose.Schema({
 });
 
 const studentSchema = new mongoose.Schema({
+	user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 	year_of_study: { type: Number, required: false },
 	tech_stacks: { type: Array, required: false },
-	projects: { type: Array, required: false },
+	projects: [
+		{
+			project: { type: mongoose.Schema.Types.ObjectId, ref: "projects" },
+		},
+	],
 	qualifications: {
 		resume: fileSchema,
 		cv: fileSchema,

@@ -1,54 +1,44 @@
-import User from "../models/user-model.js";
-import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { UserModel } from "../models/models.js";
+import { token_handler } from "../utils/utils.js";
+import ErrorHandler, {
+	asyncErrorHandler,
+} from "../middleware/error-handler.js";
 
-const createUser = async (req, res) => {
-  const { email, password, name } = req.body;
-  try {
-    const user = new User({ email, password, name });
-    await user.save();
-    res.status(201).json({ message: "User created" });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+const sign_up = asyncErrorHandler(async (req, res) => {
+	const { email, password, name } = req.body;
+	const existing_user = await UserModel.findOne({ email: email });
+	if (existing_user) {
+		return next(new ErrorHandler(400, "User already exists"));
+	}
+	await UserModel.create({ email, password, name });
+	res.status(201).json({ message: "User created" });
+});
+
+const sign_in = asyncErrorHandler(async (req, res, next) => {
+	const { email, password } = req.body;
+	const user = await UserModel.findOne({ email: email }).select("+password");
+	if (!user || !(await user.comparePassword(password))) {
+		return next(new ErrorHandler(401, "Invalid credentials"));
+	}
+	res.status(200).json({
+		ok: true,
+		message: "Signed in successfully",
+		data: { access_token: token_handler.get_access_token() },
+	});
+});
+
+const sign_out = async (req, res) => {
+	token_handler.clear_access_token(req.user, req, res);
 };
 
-const signIn = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const existingUser = await User.findOne({ email: email }).select(
-      "+password",
-    );
-    if (!existingUser) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-    const match = await bcryptjs.compare(password, existingUser.password);
-    if (!match) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-    return res
-      .status(200)
-      .cookie(
-        "access-token",
-        jwt.sign(
-          {
-            userId: existingUser._id,
-          },
-          process.env.JWT_SECRET,
-        ),
-      )
-      .send("Signed in");
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+const forgot_password = async (req, res) => {
+	//TODO: Implement forgot password
 };
 
-const signOut = async (req, res) => {
-  res.clearCookie("access-token").status(200).json({ message: "Signed out" });
+const reset_password = async (req, res) => {
+	//TODO: Implement reset password
 };
 
-const forgotPassword = async (req, res) => {
-  //TODO: Implement forgot password
-};
+const auth_controller = { sign_up, sign_in, sign_out };
 
-export { createUser, signIn, signOut };
+export default auth_controller;

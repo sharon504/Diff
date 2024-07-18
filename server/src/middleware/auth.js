@@ -1,19 +1,23 @@
+import { UserModel } from "../models/models.js";
+
+import ErrorHandler, {
+	asyncErrorHandler,
+} from "../middleware/error-handler.js";
+
 import jwt from "jsonwebtoken";
-import User from "../models/user-model.js";
 
-const authenticate = async (req, res, next) => {
-  try {
-    const token = req.cookies["access-token"];
-    if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
-    req.data = await User.findById(decoded.userId);
-    next();
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
+const authenticate = asyncErrorHandler(async (req, res, next) => {
+	const token = req.headers.authorization.split(" ")[1];
+	try {
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		const user = await UserModel.findById(decoded.id);
+		if (!user) {
+			return next(new ErrorHandler(401, "Unauthorized!"));
+		}
+		req.user = user;
+		next();
+	} catch (error) {
+		next(new ErrorHandler(401, "Unauthorized!"));
+	}
+});
 export { authenticate };

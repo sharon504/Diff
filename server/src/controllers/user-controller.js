@@ -1,43 +1,43 @@
-import mongoose from "mongoose";
-import User from "../models/user-model.js";
+import { UserModel } from "../models/models.js";
+import ErrorHandler, {
+	asyncErrorHandler,
+} from "../middleware/error-handler.js";
 
-const getUser = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json(error.message);
-    }
-};
+const get_users = asyncErrorHandler(async (req, res) => {
+	const { filter } = req.filter;
 
-const getUsers = async (req, res) => {
-    try {
-        const users = await User.find();
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json(error.message);
-    }
-};
+	const users = await UserModel.find(filter);
+	if (!users) {
+		return next(new ErrorHandler(404, "User not found"));
+	}
+	res.status(200).json({
+		ok: true,
+		message: "User fetched successfully",
+		data: { users },
+	});
+});
 
-const deleteUser = async (req, res) => {
-    try {
-        await User.findByIdAndDelete(req.params.id);
-        res.status(200).json("User has been deleted...");
-    } catch (error) {
-        res.status(500).json(error.message);
-    }
-};
+const update_user = asyncErrorHandler(async (req, res, next) => {
+	const { _id } = req.user;
+	const { username } = req.body;
+	const user = await UserModel.findById(_id);
+	if (!user) {
+		return next(new ErrorHandler(404, "User not found"));
+	}
+	await UserModel.findByIdAndUpdate(_id, {
+		username,
+	});
+	res.status(200).json({
+		ok: true,
+		message: "User updated successfully",
+		data: null,
+	});
+});
 
-const updateUser = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
-        await User.findByIdAndUpdate(req.params.id, {
-            $set: req.body,
-        });
-        res.status(200).json("User has been updated...");
-    } catch (error) {
-        res.status(500).json(error.message);
-    }
-};
+const delete_user = asyncErrorHandler(async (req, res, next) => {
+	// TODO: Implement delete user with cascade delete
+});
 
-export { getUsers, getUser, deleteUser, updateUser };
+const user_controller = { get_users, update_user };
+
+export default user_controller;
