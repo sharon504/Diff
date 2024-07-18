@@ -43,8 +43,8 @@ if (Astro.request.method === "POST") {
         password,
       }),
     });
-        console.log(response);
-    if (response.status === 201) {
+    console.log(response);
+    if (response.status === 200) {
       console.log("User signed in successfully");
       return Astro.redirect("/dashboard");
     }
