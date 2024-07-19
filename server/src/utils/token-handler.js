@@ -1,13 +1,13 @@
 import ErrorHandler from "../middleware/error-handler.js";
 
-const get_access_token = async (user, statusCode, res) => {
-	const access_token = user.getAccessToken();
+const get_access_token = async (user, status_code, res) => {
+	const access_token = user.get_access_token();
 
 	if (!access_token) {
 		return next(new ErrorHandler(500, "Error generating access token"));
 	}
 
-	res.status(statusCode).json({
+	res.status(status_code).json({
 		ok: true,
 		message: "Signed in successfully",
 		data: { access_token },

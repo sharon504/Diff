@@ -4,6 +4,7 @@ import cors from "cors";
 
 import { user_router, projects_router, auth_router } from "./routes/routes.js";
 import { authenticate } from "./middleware/auth.js";
+import { errorHandler } from "./middleware/error-handler.js";
 
 const ROUTE_PREFIX = "/api/v1";
 
@@ -21,5 +22,7 @@ app.use(
 app.use(ROUTE_PREFIX + "/auth", auth_router);
 app.use(ROUTE_PREFIX, authenticate, projects_router);
 app.use(ROUTE_PREFIX, user_router);
+
+app.use(errorHandler);
 
 export default app;

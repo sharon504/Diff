@@ -67,11 +67,11 @@ UserSchema.pre("save", async function (next) {
 	this.password = await bcryptjs.hash(this.password, 10);
 });
 
-UserSchema.methods.comparePassword = async function (password) {
+UserSchema.methods.compare_password = async function (password) {
 	return await bcryptjs.compare(password, this.password);
 };
 
-UserSchema.methods.getAccessToken = function () {
+UserSchema.methods.get_access_token = function () {
 	return jwt.sign(
 		{ user_id: this._id, iat: Date.now() },
 		process.env.JWT_SECRET,
@@ -91,7 +91,7 @@ UserSchema.methods.getAccessToken = function () {
 //   );
 // };
 
-UserSchema.methods.verifyToken = function (token, type) {
+UserSchema.methods.verify_token = function (token, type) {
 	return jwt.verify(
 		accessToken,
 		type === "access" ? process.env.JWT_SECRET : process.env.JWT_REFRESH_SECRET,
