@@ -18,8 +18,8 @@ app.use(
 	}),
 );
 
-app.use(ROUTE_PREFIX, authenticate, projects_router);
 app.use(ROUTE_PREFIX + "/auth", auth_router);
+app.use(ROUTE_PREFIX, authenticate, projects_router);
 app.use(ROUTE_PREFIX, user_router);
 
 export default app;
