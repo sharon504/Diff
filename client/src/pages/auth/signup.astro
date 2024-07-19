@@ -6,105 +6,107 @@ import Nav from "@components/common/nav";
 import { MailIcon, LockIcon, UserIcon } from "lucide-react";
 
 const fields: {
-  name: string;
-  id: string;
-  type: string;
-  placeholder: string;
-  icon: any;
+	name: string;
+	id: string;
+	type: string;
+	placeholder: string;
+	icon: any;
 }[] = [
-  {
-    name: "name",
-    id: "name",
-    type: "text",
-    placeholder: "John Doe",
-    icon: UserIcon,
-  },
-  {
-    name: "email",
-    id: "email",
-    type: "email",
-    placeholder: "example@gmail.com",
-    icon: MailIcon,
-  },
-  {
-    name: "password",
-    id: "password",
-    type: "password",
-    placeholder: "password",
-    icon: LockIcon,
-  },
+	{
+		name: "name",
+		id: "name",
+		type: "text",
+		placeholder: "John Doe",
+		icon: UserIcon,
+	},
+	{
+		name: "email",
+		id: "email",
+		type: "email",
+		placeholder: "example@gmail.com",
+		icon: MailIcon,
+	},
+	{
+		name: "password",
+		id: "password",
+		type: "password",
+		placeholder: "password",
+		icon: LockIcon,
+	},
 ];
 
 if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-    const name = data.get("name");
-    const email = data.get("email");
-    const password = data.get("password");
-    const response = await fetch("http://localhost:2000/api/v1/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    });
-    if (response.status === 201) {
-      return Astro.redirect("/auth/signin");
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-      return Astro.redirect(`/auth/signup?error=${error.message}`);
-    }
-  }
+	try {
+		const data = await Astro.request.formData();
+		const name = data.get("name");
+		const email = data.get("email");
+		const password = data.get("password");
+		const response = await fetch(
+			`${import.meta.env.PUBLIC_SERVER_URL}/auth/signup`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name,
+					email,
+					password,
+				}),
+			},
+		);
+		if (response.status === 201) {
+			return Astro.redirect("/auth/signin");
+		}
+	} catch (error) {
+		if (error instanceof Error) {
+			return Astro.redirect(`/auth/signup?error=${error.message}`);
+		}
+	}
 }
 ---
 
 <MetadataWrapper page="Signup">
-  <Nav current="Signup" client:load />
-  <div class="h-screen mx-auto flex items-center justify-center">
-    <form
-      class="p-4 flex flex-col items-center gap-4 bg-white shadow-md rounded-lg"
-      method="POST"
-      action=""
-    >
-      <UserIcon size={64} />
+	<Nav current="Signup" client:load />
+	<div class="h-screen mx-auto flex items-center justify-center">
+		<form
+			class="p-4 flex flex-col items-center gap-4 bg-white shadow-md rounded-lg"
+			method="POST"
+			action=""
+		>
+			<UserIcon size={64} />
 
-      <hr class="w-full mt-2 mb-1" />
-      {
-        fields.map((field) => (
-          <div class="border px-3 py-1 flex justify-between items-center gap-2 rounded-lg">
-            <label for={field.id} class="text-gray-600">
-              <field.icon size={24} />
-            </label>
-            <input
-              type={field.type}
-              id={field.id}
-              name={field.id}
-              placeholder={field.placeholder}
-              class="p-1 rounded-lg outline-none"
-            />
-          </div>
-        ))
-      }
-      <button
-        class="border w-full px-3 py-2 rounded-lg hover:bg-blue-500 hover:scale-105 hover:text-white ease-in-out duration-500"
-        type="submit"
-      >
-        Signup
-      </button>
-      <hr class="w-full mt-2 mb-1" />
-      <button
-        class="border w-full px-3 py-2 rounded-lg hover:bg-blue-500 hover:scale-105 hover:text-white ease-in-out duration-500"
-        type="button"
-        onclick="window.location.href = '/auth/signin';"
-      >
-        Signin
-      </button>
-    </form>
-  </div>
+			<hr class="w-full mt-2 mb-1" />
+			{
+				fields.map((field) => (
+					<div class="border px-3 py-1 flex justify-between items-center gap-2 rounded-lg">
+						<label for={field.id} class="text-gray-600">
+							<field.icon size={24} />
+						</label>
+						<input
+							type={field.type}
+							id={field.id}
+							name={field.id}
+							placeholder={field.placeholder}
+							class="p-1 rounded-lg outline-none"
+						/>
+					</div>
+				))
+			}
+			<button
+				class="border w-full px-3 py-2 rounded-lg hover:bg-blue-500 hover:scale-105 hover:text-white ease-in-out duration-500"
+				type="submit"
+			>
+				Signup
+			</button>
+			<hr class="w-full mt-2 mb-1" />
+			<button
+				class="border w-full px-3 py-2 rounded-lg hover:bg-blue-500 hover:scale-105 hover:text-white ease-in-out duration-500"
+				type="button"
+				onclick="window.location.href = '/auth/signin';"
+			>
+				Signin
+			</button>
+		</form>
+	</div>
 </MetadataWrapper>
