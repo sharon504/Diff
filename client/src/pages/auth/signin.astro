@@ -31,9 +31,9 @@ const fields: {
 
 if (Astro.request.method === "POST") {
 	try {
-		const data = await Astro.request.formData();
-		const email = data.get("email");
-		const password = data.get("password");
+		const formData = await Astro.request.formData();
+		const email = formData.get("email");
+		const password = formData.get("password");
 		const response = await fetch(
 			`${import.meta.env.PUBLIC_SERVER_URL}/auth/signin`,
 			{
@@ -47,14 +47,21 @@ if (Astro.request.method === "POST") {
 				}),
 			},
 		);
-		console.log(response);
-		if (response.status === 200) {
-			console.log("User signed in successfully");
-			return Astro.redirect("/dashboard");
+
+		const responseBody = await response.json();
+		if (response.ok) {
+			return new Response(null, {
+				status: 302,
+				headers: {
+					Location: "/dashboard",
+					"Set-Cookie": `accessToken=${responseBody.data.access_token}; Path=/; HttpOnly;`,
+				},
+			});
+		} else {
+			throw new Error(responseBody.message);
 		}
 	} catch (error) {
 		if (error instanceof Error) {
-			console.error(error.message);
 			return Astro.redirect(`/auth/signin?error=${error.message}`);
 		}
 	}

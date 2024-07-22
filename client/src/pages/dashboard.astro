@@ -1,7 +1,10 @@
 ---
-import MetadataWrapper from "@layouts/metadata-wrapper";
+export const prerender = false;
+import MetadataWrapper from "@layouts/metadata-wrapper.astro";
+import Nav from "@components/common/nav";
 ---
 
 <MetadataWrapper page="Dashboard">
-  <h1>Dashboard</h1>
+	<Nav current="Signin" client:load />
+	<h1>Dashboard</h1>
 </MetadataWrapper>

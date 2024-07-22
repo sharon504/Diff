@@ -57,6 +57,8 @@ if (Astro.request.method === "POST") {
 		);
 		if (response.status === 201) {
 			return Astro.redirect("/auth/signin");
+		} else {
+			return Astro.redirect(`/auth/signup?error=${response.status}`);
 		}
 	} catch (error) {
 		if (error instanceof Error) {
@@ -72,7 +74,6 @@ if (Astro.request.method === "POST") {
 		<form
 			class="p-4 flex flex-col items-center gap-4 bg-white shadow-md rounded-lg"
 			method="POST"
-			action=""
 		>
 			<UserIcon size={64} />
 
