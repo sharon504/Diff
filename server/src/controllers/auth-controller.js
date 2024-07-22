@@ -4,7 +4,7 @@ import ErrorHandler, {
 	asyncErrorHandler,
 } from "../middleware/error-handler.js";
 
-const sign_up = asyncErrorHandler(async (req, res) => {
+const sign_up = asyncErrorHandler(async (req, res, next) => {
 	const { email, password, name } = req.body;
 	const existing_user = await UserModel.findOne({ email: email });
 	if (existing_user) {
