@@ -38,6 +38,8 @@ const ProjectSchema = new mongoose.Schema({
 		},
 	],
 	summary: { type: String },
+	created_at: { type: Date, required: false, default: Date.now },
+	updated_at: { type: Date, required: false, default: Date.now },
 });
 
 export default mongoose.model("projects", ProjectSchema);
