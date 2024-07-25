@@ -2,7 +2,12 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import { user_router, projects_router, auth_router } from "./routes/routes.js";
+import {
+	user_router,
+	projects_router,
+	auth_router,
+	student_router,
+} from "./routes/routes.js";
 import { authenticate } from "./middleware/auth.js";
 import { errorHandler } from "./middleware/error-handler.js";
 
@@ -22,6 +27,7 @@ app.use(
 app.use(ROUTE_PREFIX + "/auth", auth_router);
 app.use(ROUTE_PREFIX, authenticate, projects_router);
 app.use(ROUTE_PREFIX, user_router);
+app.use(ROUTE_PREFIX, student_router);
 
 app.use(errorHandler);
 

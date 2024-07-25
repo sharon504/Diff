@@ -4,6 +4,7 @@ import prompt from "./model-ai.js";
 import fetchRepoData from "./git-data-pull.js";
 import generate_project_details from "./generate-project-details.js";
 import PROMPTS from "./PROMPTS.js";
+import { FileManager } from "./utils.js";
 
 export {
 	connect_db,
@@ -12,4 +13,5 @@ export {
 	fetchRepoData,
 	generate_project_details,
 	PROMPTS,
+	FileManager,
 };
