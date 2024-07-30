@@ -1,79 +1,81 @@
 ---
-import MetadataWrapper from "../layouts/metadata-wrapper.astro";
+import MetadataWrapper from "@layouts/metadata-wrapper.astro";
 import Carousel from "@components/common/carousel.tsx";
 const features = [
-  {
-    feature: "Effortless Project Visibility",
-    description:
-      "Publicly accessible project profiles showcase project goals, desired skillsets, and utilized technologies, attracting a wider talent pool.",
-  },
-  {
-    feature: "Enhanced Communication",
-    description:
-      "Temporary posts and comments facilitate efficient project updates and real time vacancy/ contribution requirement updates.",
-  },
-  {
-    feature: "AI-powered Project Synopses",
-    description:
-      "Large Language Model (LLM) summaries provide concise overviews of project objectives and progress, streamlining communication with stakeholders and project applicants.",
-  },
-  {
-    feature: "Streamlined Funding Acquisition",
-    description:
-      "Integrated sponsorship requests connect projects with potential financial backers, ensuring project sustainability.",
-  },
-  {
-    feature: "Intuitive Project Discovery",
-    description:
-      "Advanced search filters and personalized project suggestions leverage user profiles and project requirements, facilitating efficient project identification.",
-  },
-  {
-    feature: "LLM-driven Skill Development",
-    description:
-      "AI-powered recommendations suggest personalized roadmaps, guiding applicants on the skills needed for successful project contributions.",
-  },
-  {
-    feature: "Efficient Applicant Onboarding",
-    description:
-      "A streamlined process allows applicants to submit profiles and relevant documents during signup or application, ensuring ease of participation and providing project-specific information directly to owners.",
-  },
-  {
-    feature: "Direct Communication Channel",
-    description:
-      "A secure direct messaging feature enables seamless communication between applicants and project owners, fostering collaboration.",
-  },
+	{
+		feature: "Effortless Project Visibility",
+		description:
+			"Publicly accessible project profiles showcase project goals, desired skillsets, and utilized technologies, attracting a wider talent pool.",
+	},
+	{
+		feature: "Enhanced Communication",
+		description:
+			"Temporary posts and comments facilitate efficient project updates and real time vacancy/ contribution requirement updates.",
+	},
+	{
+		feature: "AI-powered Project Synopses",
+		description:
+			"Large Language Model (LLM) summaries provide concise overviews of project objectives and progress, streamlining communication with stakeholders and project applicants.",
+	},
+	{
+		feature: "Streamlined Funding Acquisition",
+		description:
+			"Integrated sponsorship requests connect projects with potential financial backers, ensuring project sustainability.",
+	},
+	{
+		feature: "Intuitive Project Discovery",
+		description:
+			"Advanced search filters and personalized project suggestions leverage user profiles and project requirements, facilitating efficient project identification.",
+	},
+	{
+		feature: "LLM-driven Skill Development",
+		description:
+			"AI-powered recommendations suggest personalized roadmaps, guiding applicants on the skills needed for successful project contributions.",
+	},
+	{
+		feature: "Efficient Applicant Onboarding",
+		description:
+			"A streamlined process allows applicants to submit profiles and relevant documents during signup or application, ensuring ease of participation and providing project-specific information directly to owners.",
+	},
+	{
+		feature: "Direct Communication Channel",
+		description:
+			"A secure direct messaging feature enables seamless communication between applicants and project owners, fostering collaboration.",
+	},
 ];
 ---
 
 <MetadataWrapper page="Home">
-  <div class="w-screen min-h-screen flex flex-col justify-center items-center">
-    <div class="h-screen flex flex-col justify-center items-center">
-      <h1 class="text-6xl font-bold text-center text-pink-600">Diff</h1>
-      <p class="text-2xl text-center">
-        Create, Grow and Make a <span class="text-pink-600">Diff</span>erence
-      </p>
-      <a
-        href="/auth/signup"
-        class="p-2 mt-4 text-xl rounded-lg border hover:text-white hover:bg-pink-600 ease-in-out duration-500"
-      >
-        Get Started
-      </a>
-    </div>
-    <div
-      class="w-screen min-h-screen p-4 flex flex-col justify-center items-center"
-    >
-      <h1 class="text-6xl font-bold text-center text-pink-600">Projects</h1>
-      <a
-        href="/projects"
-        class="p-2 mt-4 text-xl rounded-lg border hover:text-white hover:bg-pink-600 ease-in-out duration-500"
-      >
-        View Projects
-      </a>
-    </div>
-    <div
-      class="w-screen min-h-screen p-4 flex flex-col justify-center items-center"
-    >
-      <Carousel data={features} client:load />
-    </div>
-  </div>
+	<body>
+	<div class="w-screen min-h-screen flex flex-col justify-center items-center">
+		<div class="h-screen flex flex-col justify-center items-center">
+			<h1 class="text-6xl font-bold text-center text-pink-600">Diff</h1>
+			<p class="text-2xl text-center">
+				Create, Grow and Make a <span class="text-pink-600">Diff</span>erence
+			</p>
+			<a
+				href="/auth/signup"
+				class="p-2 mt-4 text-xl rounded-lg border hover:text-white hover:bg-pink-600 ease-in-out duration-500"
+			>
+				Get Started
+			</a>
+		</div>
+		<div
+			class="w-screen min-h-screen p-4 flex flex-col justify-center items-center"
+		>
+			<h1 class="text-6xl font-bold text-center text-pink-600">Projects</h1>
+			<a
+				href="/projects"
+				class="p-2 mt-4 text-xl rounded-lg border hover:text-white hover:bg-pink-600 ease-in-out duration-500"
+			>
+				View Projects
+			</a>
+		</div>
+		<div
+			class="w-screen min-h-screen p-4 flex flex-col justify-center items-center"
+		>
+			<Carousel data={features} client:load />
+		</div>
+	</div>
+		</body>
 </MetadataWrapper>

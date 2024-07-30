@@ -2,9 +2,9 @@
 export const prerender = false;
 
 import MetadataWrapper from "@layouts/metadata-wrapper.astro";
+import FixedHeightBody from "@layouts/fixed-height-body.astro";
 import Nav from "@components/common/nav";
 import { MailIcon, LockIcon, UserIcon } from "lucide-react";
-import type { HTMLInputTypeAttribute } from "react";
 
 const fields: {
 	name: string;
@@ -69,8 +69,9 @@ if (Astro.request.method === "POST") {
 ---
 
 <MetadataWrapper page="Signup">
+	<FixedHeightBody>
 	<Nav current="Signin" client:load />
-	<div class="h-screen mx-auto flex items-center justify-center">
+	<div class="h-full mx-auto flex items-center justify-center">
 		<form
 			class="p-4 flex flex-col items-center gap-4 bg-white shadow-md rounded-lg"
 			method="POST"
@@ -117,4 +118,5 @@ if (Astro.request.method === "POST") {
 			</button>
 		</form>
 	</div>
+		</FixedHeightBody>
 </MetadataWrapper>
