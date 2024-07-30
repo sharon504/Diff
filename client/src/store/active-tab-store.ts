@@ -22,6 +22,11 @@ export const activeTabAtom = atom<T_ActiveTab>({
 	name: "Projects",
 });
 
+export const getActiveTab = (): T_ActiveTab => {
+	return activeTabAtom.get();
+};
+
 export const setActiveTab = (tab: T_ActiveTab) => {
-	activeTabAtom.set(tab);
+	const activeTab = getActiveTab();
+	activeTabAtom.set({ ...activeTab, ...tab });
 };

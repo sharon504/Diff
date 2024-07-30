@@ -1,11 +1,12 @@
 import { atom } from "nanostores";
+import { type T_project } from "./projects-store";
 
 export type T_Profile = {
 	profile_picture: string;
 	year_of_study: number;
 	tech_stacks: string[];
 	description: string;
-	projects: string[];
+	projects: T_project[];
 	cv: string;
 	contact: {
 		portfolio: string;
@@ -14,7 +15,7 @@ export type T_Profile = {
 		phone: string;
 		email: string;
 	};
-	sponsored_projects: string[];
+	sponsored_projects: T_project[];
 };
 
 export type T_Privacy = {
@@ -94,7 +95,19 @@ export const userAtom = atom<T_User>({
 	},
 });
 
-export const setUser = (user: T_User) => {
+export const getUser = (): T_User => {
+	return userAtom.get();
+};
+
+export const setProfile = (profile: T_Profile) => {
+	const user = getUser();
+	user.profile = profile;
+	userAtom.set(user);
+};
+
+export const setPreferences = (preferences: T_Preferences) => {
+	const user = getUser();
+	user.preferences = preferences;
 	userAtom.set(user);
 };
 
