@@ -1,5 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./constants";
+import { PRIVATE_ROUTES } from "./constants";
 
 export const onRequest = defineMiddleware((context, next) => {
 	const accessToken = context.request.headers

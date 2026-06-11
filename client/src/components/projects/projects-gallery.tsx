@@ -5,6 +5,7 @@ import {
 	setProjects,
 	processedProjectsAtom,
 } from "@store/projects-store";
+import { API_URL } from "../../constants";
 
 const ProjectCard = ({ project }: { project: T_project }) => {
 	const { _id, name, description, techStacks, status, projectURL } = project;
@@ -67,7 +68,7 @@ const ProjectCard = ({ project }: { project: T_project }) => {
 const ProjectsGallery = () => {
 	const $processedProjects = useStore(processedProjectsAtom);
 	const fetchProjects = async () => {
-		const response = await fetch("http://localhost:2000/api/v1/projects");
+		const response = await fetch(`${API_URL}/projects`);
 		const projects = await response.json();
 		setProjects(projects);
 	};

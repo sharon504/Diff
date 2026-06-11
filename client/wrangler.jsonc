@@ -1,0 +1,6 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "diff-client",
+	"compatibility_date": "2026-06-11",
+	"pages_build_output_dir": "./dist"
+}

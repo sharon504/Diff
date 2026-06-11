@@ -12,6 +12,12 @@ import { authenticate } from "./middleware/auth.js";
 import { errorHandler } from "./middleware/error-handler.js";
 
 const ROUTE_PREFIX = "/api/v1";
+const allowedOrigins = [
+	"http://localhost:3000",
+	"http://localhost:4321",
+	"https://diff-client.pages.dev",
+	...(process.env.CLIENT_URLS?.split(",").map((origin) => origin.trim()) ?? []),
+].filter(Boolean);
 
 const app = express();
 
@@ -19,7 +25,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: ["http://localhost:3000", "http://localhost:4321"],
+		origin: allowedOrigins,
 		credentials: true,
 	}),
 );

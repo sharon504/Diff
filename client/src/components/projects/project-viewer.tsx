@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useStore } from "@nanostores/react";
 import { type T_project, projectsAtom } from "@store/projects-store";
 import { ArrowLeftIcon } from "lucide-react";
+import { API_URL } from "../../constants";
 
 const ProjectViewer = ({ projectId }: { projectId: string }) => {
   const [project, setProject] = useState<T_project | null>(null);
   const { _id, name, description, techStacks, status, projectURL, summary } =
     project || ({} as T_project);
   const fetchProject = async () => {
-    const response = await fetch(
-      `http://localhost:2000/api/v1/projects/${projectId}`,
-    );
+    const response = await fetch(`${API_URL}/projects/${projectId}`);
     const data: T_project = await response.json();
     setProject(data);
   };
